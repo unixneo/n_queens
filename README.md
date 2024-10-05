@@ -18,6 +18,7 @@ Solving the Classic NxN Queens Puzzle Using Positional Arrays in Ruby
 If you set $number_of_queens = 9, the code will find and print all solutions for the 9-queens problem.
 
 
-# See ALso:
+# See Also:
 
-https://en.wikipedia.org/wiki/Eight_queens_puzzle
+- [Wikipedia: 8 Queens Problem](https://en.wikipedia.org/wiki/Eight_queens_puzzle)
+- [Solving 4-queen problem: Translate my logic to code? Unable to do so](https://community.unix.com/t/solving-4-queen-problem-translate-my-logic-to-code-unable-to-do-so/395405)
