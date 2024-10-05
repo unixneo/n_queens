@@ -2,7 +2,7 @@
 
 Solving the Classic NxN Queens Puzzle Using Positional Arrays in Ruby
 
-# xHow It Works:
+# How It Works:
 
 	1.	Static Variable $number_of_queens: This variable defines both the number of queens and the size of the board. You can change it to solve for any board size (e.g., 8 for an 8x8 board).
 	2.	Generic Queen Moves Generation: The generate_queen_moves_for_n_queens function generates the queen’s movement arrays for any board size by using $number_of_queens as the dynamic board size.
