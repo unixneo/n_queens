@@ -13,6 +13,11 @@ Solving the Classic NxN Queens Puzzle Using Positional Arrays in Ruby
 
 	•	Simply change the value of $number_of_queens at the top of the script to your desired number (e.g., 4 for a 4x4 board, 8 for an 8x8 board, etc.).
 
-Example:
+# Example:
 
 If you set $number_of_queens = 9, the code will find and print all solutions for the 9-queens problem.
+
+
+# See ALso:
+
+https://en.wikipedia.org/wiki/Eight_queens_puzzle
