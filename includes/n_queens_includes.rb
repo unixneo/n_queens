@@ -31,7 +31,7 @@ def format_time(start_time)
   if time > 100
     human_readable_time(time.round(6))
   else
-    "#{time.round(6)}s"
+    "#{time.round(6)} seconds"
   end
 end
 

@@ -15,13 +15,13 @@ $number_of_queens = get_number_of_queens($max_queens)
 # Uncomment one of the following lines to choose the solving method:
 
 # Standard backtracking with pruning (fast for moderate board sizes)
-# solutions = solve_n_queens_fast($number_of_queens)
+# solutions = solve_n_queens_fast($number_of_queens); algo = 'Standard backtracking with pruning'
 
 # Optimized bitmask solution (faster for larger board sizes)
-solutions = solve_n_queens_bitmask($number_of_queens)
+solutions = solve_n_queens_bitmask($number_of_queens); algo = 'Optimized bitmask solution'
 
 # Parallel execution (useful for larger board sizes, e.g., 12x12 or greater)
-#solutions = solve_n_queens_parallel($number_of_queens)
+#solutions = solve_n_queens_parallel($number_of_queens); algo = 'Parallel execution'
 
 # Print solutions if the flag $show_solutions is true
 if $show_solutions
@@ -40,4 +40,4 @@ end
 
 # Display the number of solutions and execution time
 str_time = format_time(start_time)
-puts "Number of solutions: #{solutions.size.to_s.gsub(/\B(?=(...)*\b)/, ',')} for #{$number_of_queens} Queens in #{str_time}\n"
+puts "Number of solutions: #{solutions.size.to_s.gsub(/\B(?=(...)*\b)/, ',')} for #{$number_of_queens} Queens in #{str_time} using #{algo}\n"
