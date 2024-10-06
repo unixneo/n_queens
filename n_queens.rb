@@ -1,22 +1,23 @@
-# Static variable for the number of queens and the board size
-$number_of_queens = 8 # Change this value to solve for different sizes of queens and board (e.g., 8 for 8x8)
-$show_solutions = false # Change this falue to print of the solutions
-$max_queens = 18 # Change this value to make this run too long :)
+# Static variables for the number of queens and the board size
+$number_of_queens = 8  # Default value, can be changed with command-line argument
+$show_solutions = false  # Set this to true to print all solutions
+$max_queens = 18  # Upper limit to avoid too long of a runtime for very large boards
 
 start_time = Time.now
 
+# Load helper methods from the includes file
 require_relative "includes/n_queens_includes"
 
+# Get the number of queens via command line argument or default
 $number_of_queens = get_number_of_queens
-
 
 # Generate the hash for the NxN board
 queen_moves_n_queens = generate_queen_moves_for_n_queens
 
 # Solve the n-queens problem
-solutions ||= solve_n_queens(queen_moves_n_queens)
+solutions = solve_n_queens(queen_moves_n_queens)
 
-# Print all the solutions
+# Print all solutions if the flag $show_solutions is true
 if $show_solutions
   if solutions.empty?
     puts "No solutions found"
@@ -31,6 +32,7 @@ if $show_solutions
     end
   end
 end
-  
+
+# Display the number of solutions and execution time
 str_time = format_time(start_time)
-puts "Number of solutions: #{solutions.size.to_s.gsub(/\B(?=(...)*\b)/, ',')} for #{$number_of_queens} Queens in #{str_time} \n"
+puts "Number of solutions: #{solutions.size.to_s.gsub(/\B(?=(...)*\b)/, ',')} for #{$number_of_queens} Queens in #{str_time}\n"
