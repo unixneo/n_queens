@@ -1,5 +1,5 @@
 # Static variable for the number of queens and the board size
-$number_of_queens = 13 # Change this value to solve for different sizes of queens and board (e.g., 8 for 8x8)
+$number_of_queens = 8 # Change this value to solve for different sizes of queens and board (e.g., 8 for 8x8)
 $show_solutions = true # Change this falue to print of the solutions
 start_time = Time.now
 
