@@ -9,7 +9,7 @@ require_relative "includes/n_queens_includes"
 queen_moves_n_queens = generate_queen_moves_for_n_queens
 
 # Solve the n-queens problem
-solutions = solve_n_queens(queen_moves_n_queens)
+solutions ||= solve_n_queens(queen_moves_n_queens)
 
 # Print all the solutions
 if $show_solutions
