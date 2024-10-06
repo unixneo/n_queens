@@ -1,9 +1,24 @@
 # Static variable for the number of queens and the board size
 $number_of_queens = 8 # Change this value to solve for different sizes of queens and board (e.g., 8 for 8x8)
-$show_solutions = true # Change this falue to print of the solutions
+$show_solutions = false # Change this falue to print of the solutions
+$max_queens = 18 # Change this value to make this run too long :)
+
 start_time = Time.now
 
 require_relative "includes/n_queens_includes"
+
+ARGV.each do |argv|
+  # Usage:   ruby n_queens.rb 10
+  queens = argv.to_i
+  if queens.between?(1,$max_queens)
+    $number_of_queens = queens
+    break
+  else
+    puts "Max Queens is set to #{$max_queens} but you requested #{queens} Queens!\n" 
+    exit
+  end
+end
+
 
 # Generate the hash for the NxN board
 queen_moves_n_queens = generate_queen_moves_for_n_queens
