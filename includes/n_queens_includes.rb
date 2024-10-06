@@ -1,4 +1,21 @@
 
+
+def get_number_of_queens
+  queens = $number_of_queens
+  ARGV.each do |argv|
+    # Usage:   ruby n_queens.rb 10
+    queens = argv.to_i
+    if queens.between?(1,$max_queens)
+      queens
+    else
+      puts "Max Queens is set to #{$max_queens} but you requested #{queens} Queens!\n" 
+      exit
+    end
+  end
+  queens
+end
+
+
 # Turn Seconds into Human-Readable Time with Ruby
   def human_readable_time(secs)
     [[60, :seconds], [60, :minutes], [24, :hours], [Float::INFINITY, :days]].map do |count, name|

@@ -7,17 +7,7 @@ start_time = Time.now
 
 require_relative "includes/n_queens_includes"
 
-ARGV.each do |argv|
-  # Usage:   ruby n_queens.rb 10
-  queens = argv.to_i
-  if queens.between?(1,$max_queens)
-    $number_of_queens = queens
-    break
-  else
-    puts "Max Queens is set to #{$max_queens} but you requested #{queens} Queens!\n" 
-    exit
-  end
-end
+$number_of_queens = get_number_of_queens
 
 
 # Generate the hash for the NxN board
