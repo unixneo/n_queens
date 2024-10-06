@@ -9,24 +9,24 @@ start_time = Time.now
 require_relative "includes/n_queens_includes"
 
 # Get the number of queens via command line argument or default
-$number_of_queens = get_number_of_queens
+$number_of_queens = get_number_of_queens($max_queens)
 
-# Generate the hash for the NxN board
-queen_moves_n_queens = generate_queen_moves_for_n_queens
+# Solve the n-queens problem using the optimized fast algorithm
+#solutions = solve_n_queens_fast($number_of_queens)
 
-# Solve the n-queens problem
-solutions = solve_n_queens(queen_moves_n_queens)
+# Solve the n-queens problem using the optimized fast algorithm
+solutions = solve_n_queens_parallel($number_of_queens)
 
-# Print all solutions if the flag $show_solutions is true
+# Print solutions if the flag $show_solutions is true
 if $show_solutions
   if solutions.empty?
     puts "No solutions found"
   else
     solutions.each_with_index do |solution, index|
       puts "Solution #{index + 1}:"
-      solution.each do |pos|
+      solution.each do |col|
         board_size = $number_of_queens
-        puts "Queen placed at: Position #{pos} (Row #{pos / board_size}, Column #{pos % board_size})"
+        puts "Queen placed at: Column #{col} in Row #{solution.index(col)}"
       end
       puts "\n"
     end

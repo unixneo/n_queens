@@ -1,13 +1,12 @@
 # Get the number of queens from the command-line argument or default
-def get_number_of_queens
+def get_number_of_queens(max_queens)
   queens = $number_of_queens
   ARGV.each do |argv|
-    # Usage: ruby n_queens.rb 10
     queens = argv.delete('^0-9').to_i
-    if queens.between?(1, $max_queens)
+    if queens.between?(1, max_queens)
       return queens
     else
-      puts "Max Queens is set to #{$max_queens} but you requested #{queens} Queens!\n"
+      puts "Max Queens is set to #{max_queens} but you requested #{queens} queens!"
       exit
     end
   end
@@ -34,64 +33,59 @@ def format_time(start_time)
   end
 end
 
-# Function to generate a queen's movement array for each position on an NxN board
-def generate_queen_moves(row, col)
-  board_size = $number_of_queens
-  moves = Array.new(board_size * board_size, 0)
+# Function to solve the N-Queens problem with optimized backtracking and pruning
+def solve_n_queens_fast(board_size)
+  solutions = []
+  columns = Array.new(board_size, false)
+  main_diag = Array.new(2 * board_size - 1, false)  # Main diagonals (row - col)
+  anti_diag = Array.new(2 * board_size - 1, false)  # Anti-diagonals (row + col)
 
-  # Mark all positions in the same row
-  board_size.times { |c| moves[row * board_size + c] = 1 }
+  def place_queen(row, queens, board_size, columns, main_diag, anti_diag, solutions)
+    if row == board_size
+      solutions << queens.dup
+      return
+    end
 
-  # Mark all positions in the same column
-  board_size.times { |r| moves[r * board_size + col] = 1 }
-
-  # Mark top-left to bottom-right diagonal
-  (-[row, col].min..[board_size - 1 - row, board_size - 1 - col].min).each do |i|
-    moves[(row + i) * board_size + (col + i)] = 1
-  end
-
-  # Mark top-right to bottom-left diagonal
-  (-[row, board_size - 1 - col].min..[board_size - 1 - row, col].min).each do |i|
-    moves[(row + i) * board_size + (col - i)] = 1
-  end
-
-  moves
-end
-
-# Generate the entire hash of queen moves for all positions on an NxN board
-def generate_queen_moves_for_n_queens
-  queen_moves = {}
-  board_size = $number_of_queens
-  board_size.times do |row|
     board_size.times do |col|
-      pos = row * board_size + col
-      queen_moves["Position #{pos}"] = generate_queen_moves(row, col)
+      if !columns[col] && !main_diag[row - col + board_size - 1] && !anti_diag[row + col]
+        # Mark this column and diagonals as occupied
+        columns[col] = main_diag[row - col + board_size - 1] = anti_diag[row + col] = true
+        queens.push(col)
+
+        place_queen(row + 1, queens, board_size, columns, main_diag, anti_diag, solutions)
+
+        # Backtrack and unmark the column and diagonals
+        columns[col] = main_diag[row - col + board_size - 1] = anti_diag[row + col] = false
+        queens.pop
+      end
     end
   end
-  queen_moves
+
+  place_queen(0, [], board_size, columns, main_diag, anti_diag, solutions)
+  solutions
 end
 
-# Check if placing a queen at the current position is safe
-def is_safe(position, queens, queen_moves)
-  queens.all? { |q| queen_moves["Position #{q}"][position] == 1 ? false : true }
+# Optional: Parallelized solution for large boards (e.g., 12x12 or greater)
+require 'parallel'
+
+def solve_n_queens_parallel(board_size)
+  solutions = Parallel.map(0...board_size, in_threads: board_size) do |col|
+    solve_single_column(col, board_size)
+  end
+
+  solutions.flatten(1)
 end
 
-# Recursive function to solve the n-queens problem
-def solve_n_queens(queen_moves, queens = [], row = 0, solutions = [])
-  board_size = $number_of_queens
-  if queens.size == board_size  # All queens placed
-    solutions << queens.dup  # Store the solution
-    return
-  end
+def solve_single_column(col, board_size)
+  solutions = []
+  columns = Array.new(board_size, false)
+  main_diag = Array.new(2 * board_size - 1, false)
+  anti_diag = Array.new(2 * board_size - 1, false)
 
-  board_size.times do |col|  # Loop through all columns
-    position = row * board_size + col  # Calculate position based on row and column
-    if is_safe(position, queens, queen_moves)
-      queens.push(position)  # Place the queen
-      solve_n_queens(queen_moves, queens, row + 1, solutions)
-      queens.pop  # Backtrack
-    end
-  end
+  # Place the first queen in the column provided and proceed with backtracking
+  columns[col] = main_diag[0 - col + board_size - 1] = anti_diag[0 + col] = true
+  queens = [col]
+  place_queen(1, queens, board_size, columns, main_diag, anti_diag, solutions)
 
   solutions
 end
