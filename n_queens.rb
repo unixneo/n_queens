@@ -18,10 +18,10 @@ $number_of_queens = get_number_of_queens($max_queens)
 # solutions = solve_n_queens_fast($number_of_queens)
 
 # Optimized bitmask solution (faster for larger board sizes)
-# solutions = solve_n_queens_bitmask($number_of_queens)
+solutions = solve_n_queens_bitmask($number_of_queens)
 
 # Parallel execution (useful for larger board sizes, e.g., 12x12 or greater)
-solutions = solve_n_queens_parallel($number_of_queens)
+#solutions = solve_n_queens_parallel($number_of_queens)
 
 # Print solutions if the flag $show_solutions is true
 if $show_solutions
