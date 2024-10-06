@@ -26,7 +26,7 @@ Table of Contents
 
 Clone this repository to your local machine:
 
-git clone https://github.com/your-username/n-queens-solver.git
+git clone https://github.com/unixneo/n_queens.git
 cd n_queens
 
 Ensure you have Ruby installed on your machine (Ruby version 2.7 or higher recommended).
