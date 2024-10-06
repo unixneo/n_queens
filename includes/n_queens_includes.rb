@@ -4,9 +4,10 @@ def get_number_of_queens
   queens = $number_of_queens
   ARGV.each do |argv|
     # Usage:   ruby n_queens.rb 10
-    queens = argv.to_i
+    queens = argv.delete('^0-9').to_i
     if queens.between?(1,$max_queens)
       queens
+      break
     else
       puts "Max Queens is set to #{$max_queens} but you requested #{queens} Queens!\n" 
       exit
