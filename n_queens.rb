@@ -4,6 +4,7 @@ $show_solutions = false  # Set this to true to print all solutions
 $max_queens = 18  # Upper limit to avoid too long of a runtime for very large boards
 
 start_time = Time.now
+method_name = ""  # Variable to store the method used
 
 # Load helper methods from the includes file
 require_relative "includes/n_queens_includes"
@@ -11,18 +12,19 @@ require_relative "includes/n_queens_includes"
 # Get the number of queens via command line argument or default
 $number_of_queens = get_number_of_queens($max_queens)
 
-# Choose which method to solve the n-queens problem
-# Uncomment one of the following lines to choose the solving method:
+# Automatically select the best method based on the size of `n`
+if $number_of_queens <= 10
+  method_name = "Backtracking with Pruning"
+  solutions = solve_n_queens_fast($number_of_queens)
+elsif $number_of_queens <= 12
+  method_name = "Optimized Bitmasking"
+  solutions = solve_n_queens_bitmask($number_of_queens)
+else
+  method_name = "Parallel Bitmasking"
+  solutions = solve_n_queens_bitmask_parallel($number_of_queens)
+end
 
-# Standard backtracking with pruning (fast for moderate board sizes)
-# solutions = solve_n_queens_fast($number_of_queens); algo = 'Standard backtracking with pruning'
-
-# Optimized bitmask solution (faster for larger board sizes)
-solutions = solve_n_queens_bitmask($number_of_queens); algo = 'Optimized bitmask solution'
-
-# Parallel execution (useful for larger board sizes, e.g., 12x12 or greater)
-#solutions = solve_n_queens_parallel($number_of_queens); algo = 'Parallel execution'
-
+puts "Started Solving N-Queens with #{$number_of_queens} Queens using the #{method_name} Method\n"
 # Print solutions if the flag $show_solutions is true
 if $show_solutions
   if solutions.empty?
@@ -38,6 +40,6 @@ if $show_solutions
   end
 end
 
-# Display the number of solutions and execution time
+# Display the method name, number of solutions, and execution time
 str_time = format_time(start_time)
-puts "Number of solutions: #{solutions.size.to_s.gsub(/\B(?=(...)*\b)/, ',')} for #{$number_of_queens} Queens in #{str_time} using #{algo}\n"
+puts "Number of solutions: #{solutions.size.to_s.gsub(/\B(?=(...)*\b)/, ',')} for #{$number_of_queens} Queens in #{str_time}\n"

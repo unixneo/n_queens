@@ -1,109 +1,129 @@
+# N-Queens Solver
 
-## n_queens
+This project provides a flexible, efficient, and dynamically optimized solution to the **N-Queens problem**. It includes multiple solving methods, each tailored for different board sizes, ensuring the best performance for any `n`.
 
-This project provides a flexible and efficient solution to the N-Queens problem, allowing you to solve the problem for any board size using various algorithms, including backtracking, bitmasking, and parallel execution for larger boards.
+## Features
 
-Features
+- **Dynamic Method Selection**: Automatically selects the most efficient algorithm based on the board size (`n`).
+- **Backtracking with Pruning**: Optimized backtracking algorithm for small board sizes.
+- **Bitmasking**: A memory-efficient solution using bitwise operations, best for medium board sizes.
+- **Parallel Bitmasking**: Utilizes multi-core CPUs to solve large board sizes efficiently.
+- **Execution Time Reporting**: Displays the method used, the number of solutions, and the total execution time.
 
-	•	Backtracking with Pruning: An efficient backtracking algorithm that prunes invalid solutions early.
-	•	Bitmasking Optimization: Uses bitwise operations for faster performance on larger board sizes.
-	•	Parallel Execution: Leverages parallel processing to solve the problem faster on multi-core machines.
-	•	Configurable Board Size: Solve the N-Queens problem for any board size by passing a command-line argument.
-	•	Execution Time: Displays the number of solutions found and the time it took to compute them.
+## Table of Contents
 
-Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Solving Methods](#solving-methods)
+  - [Backtracking with Pruning](#backtracking-with-pruning)
+  - [Optimized Bitmasking](#optimized-bitmasking)
+  - [Parallel Bitmasking](#parallel-bitmasking)
+  - [Dynamic Method Selection](#dynamic-method-selection)
+- [Example Output](#example-output)
+- [License](#license)
 
-	1.	Installation
-	2.	Usage
-	3.	Solving Methods
-	•	Backtracking
-	•	Bitmasking
-	•	Parallel Execution
-	4.	Example Outputs
-	5.	License
+## Installation
 
-### Installation
+1. Clone the repository to your local machine:
 
-	Clone this repository to your local machine:
+   ```bash
+   git clone https://github.com/unixneo/n_queens.git
+   cd n_queens
+   ```
 
-	git clone https://github.com/unixneo/n_queens.git
-	cd n_queens
+2. Ensure you have Ruby installed (version 2.7 or higher recommended).
 
-	Ensure you have Ruby installed on your machine (Ruby version 2.7 or higher recommended).
+3. Install the `parallel` gem for parallel execution:
 
-	To use parallel execution, you’ll need the parallel gem:
+   ```bash
+   gem install parallel
+   ```
 
-	gem install parallel
+## Usage
 
-### Usage
+You can run the solver by executing the `n_queens.rb` script:
 
-	You can run the N-Queens solver by executing the n_queens.rb script:
+### Default (8 Queens)
 
-#### Default (8-Queens Problem):
+```bash
+ruby n_queens.rb
+```
 
-	ruby n_queens.rb
+### Custom Board Size
 
-#### Custom Board Size (e.g., 12-Queens Problem):
+```bash
+ruby n_queens.rb <board_size>
+```
 
-	ruby n_queens.rb 12
+For example, to solve the 12-Queens problem:
 
-### Show Solutions:
+```bash
+ruby n_queens.rb 12
+```
 
-	To display all solutions found, edit the main file and set the $show_solutions flag to true:
+### Show Solutions
 
-	$show_solutions = true
+If you want to print all the solutions found, set `$show_solutions` to `true` in the **main file**:
 
-### Solving Methods
+```ruby
+$show_solutions = true
+```
 
-	There are three different algorithms implemented to solve the N-Queens problem. You can select which algorithm to use by uncommenting the respective line in the main file.
+## Solving Methods
 
-	#### 1. Backtracking with Pruning
+This project supports three solving methods, automatically choosing the best one based on the size of the board (`n`).
 
-		This method uses backtracking and prunes the search space by skipping invalid positions early in the recursion.
+### 1. Backtracking with Pruning
 
-		To use this method, uncomment the following line in the main file:
+Used for small board sizes (`n <= 10`), this method efficiently prunes invalid queen placements early in the recursion.
 
-		solutions = solve_n_queens_fast($number_of_queens)
+### 2. Optimized Bitmasking
 
-	#### 2. Bitmasking Optimization
+For medium board sizes (`n <= 12`), the bitmasking approach leverages bitwise operations to track column and diagonal conflicts, reducing memory and computation overhead.
 
-		This method uses bitwise operations for faster performance and reduced memory usage, especially useful for larger boards.
+### 3. Parallel Bitmasking
 
-		To use this method, uncomment the following line in the main file:
+For large board sizes (`n > 12`), this method combines bitmasking with parallel execution. It distributes the workload across multiple CPU cores, solving each possible queen placement in parallel for maximum performance.
 
-		solutions = solve_n_queens_bitmask($number_of_queens)
+## Dynamic Method Selection
 
-	#### 3. Parallel Execution
+The main file automatically selects the most appropriate method based on the size of `n`:
 
-		For large boards (e.g., n = 12 or higher), you can enable parallel execution to speed up the computation using multiple CPU cores.
+- **Backtracking with Pruning** for `n <= 10`
+- **Optimized Bitmasking** for `n <= 12`
+- **Parallel Bitmasking** for `n > 12`
 
-		To use this method, uncomment the following line in the main file:
+This ensures the solver runs as efficiently as possible without needing manual method selection.
 
-		solutions = solve_n_queens_parallel($number_of_queens)
+## Example Output
 
-		Ensure the parallel gem is installed to support multi-core processing.
+Here's an example output for the 8-Queens problem with **Parallel Bitmasking**:
 
-### Example Outputs
+```
+Method used: Parallel Bitmasking
+Number of solutions: 92 for 8 Queens in 0.123456s
+```
 
-	When $show_solutions = true, the program will output each solution found. Below is an example of a solution for the 4-Queens problem:
+When `$show_solutions` is enabled, you'll also see the exact queen placements for each solution:
 
-	Solution 1:
-	Queen placed at: Row 0, Column 1
-	Queen placed at: Row 1, Column 3
-	Queen placed at: Row 2, Column 0
-	Queen placed at: Row 3, Column 2
+```
+Solution 1:
+Queen placed at: Row 0, Column 0
+Queen placed at: Row 1, Column 4
+Queen placed at: Row 2, Column 7
+Queen placed at: Row 3, Column 5
+Queen placed at: Row 4, Column 2
+Queen placed at: Row 5, Column 6
+Queen placed at: Row 6, Column 1
+Queen placed at: Row 7, Column 3
+```
 
-	At the end of the program, it will display the total number of solutions found and the time it took to compute them:
+## License
 
-	Number of solutions: 92 for 8 Queens in 0.123456s
-
-### License
-
-	This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 
-
-### See Also:
+## See Also:
 
 - [Wikipedia: 8 Queens Problem](https://en.wikipedia.org/wiki/Eight_queens_puzzle)
 - [Solving 4-queen problem: Translate my logic to code? Unable to do so](https://community.unix.com/t/solving-4-queen-problem-translate-my-logic-to-code-unable-to-do-so/395405)
