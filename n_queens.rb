@@ -20,7 +20,7 @@ elsif $number_of_queens <= 12
   method_name = "Optimized Bitmasking"
   solutions = solve_n_queens_bitmask($number_of_queens)
 else
-  method_name = "Parallel Bitmasking"
+  method_name = "Parallel Processing Bitmasking"
   solutions = solve_n_queens_bitmask_parallel($number_of_queens)
 end
 
