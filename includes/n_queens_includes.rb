@@ -1,4 +1,5 @@
 require 'parallel'
+require 'etc'
 
 # Get the number of queens from the command-line argument or default
 def get_number_of_queens(max_queens)
@@ -110,7 +111,7 @@ end
 # Parallel Execution with Bitmasking
 # ================================
 def solve_n_queens_bitmask_parallel(board_size)
-  solutions = Parallel.map(0...board_size, in_threads: board_size) do |col|
+  solutions = Parallel.map(0...board_size, in_processes: Etc.nprocessors) do |col|
     solve_single_column_with_bitmask(col, board_size)
   end
 
