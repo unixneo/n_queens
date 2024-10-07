@@ -6,8 +6,10 @@ $max_queens = 18  # Upper limit to avoid too long of a runtime for very large bo
 start_time = Time.now
 method_name = ""  # Variable to store the method used
 
-# Load helper methods from the includes file
-require_relative "includes/n_queens_includes"
+# Load helper methods from the include filew
+require_relative "includes/n_queens_core"
+require_relative "includes/n_queens_backtracking"
+require_relative "includes/n_queens_bitmasking"
 
 # Get the number of queens via command line argument or default
 $number_of_queens = get_number_of_queens($max_queens)
