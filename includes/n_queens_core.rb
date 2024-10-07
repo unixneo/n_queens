@@ -32,3 +32,17 @@ def format_time(start_time)
     "#{time.round(6)} seconds"
   end
 end
+
+def show_solutions(solutions)
+  if solutions.empty?
+    puts "No solutions found"
+  else
+    solutions.each_with_index do |solution, index|
+      puts "Solution #{index + 1}:"
+      solution.each_with_index do |col, row|
+        puts "Queen placed at: Row #{row}, Column #{col}"
+      end
+      puts "\n"
+    end
+  end
+end
