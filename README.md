@@ -127,3 +127,9 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 - [Wikipedia: 8 Queens Problem](https://en.wikipedia.org/wiki/Eight_queens_puzzle)
 - [Solving 4-queen problem: Translate my logic to code? Unable to do so](https://community.unix.com/t/solving-4-queen-problem-translate-my-logic-to-code-unable-to-do-so/395405)
+
+
+## Authors
+
+- [unixneo](https://github.com/unixneo)
+- [ChatGPT 4o](https://chatgpt.com/?model=gpt-4o)
