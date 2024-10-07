@@ -1,6 +1,3 @@
-require 'parallel'
-require 'etc'
-
 # Get the number of queens from the command-line argument or default
 def get_number_of_queens(max_queens)
   queens = $number_of_queens

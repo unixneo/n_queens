@@ -1,3 +1,5 @@
+require 'parallel'
+require 'etc'
 
 # ================================
 # Optimized Bitmasking Solution
