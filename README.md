@@ -1,4 +1,5 @@
 # N-Queens Solver
+## Andromeda Version
 
 This project provides a flexible, efficient, and dynamically optimized solution to the **N-Queens problem**. It includes multiple solving methods, each tailored for different board sizes, ensuring the best performance for any `n`.
 
