@@ -7,7 +7,8 @@ $show_elasped_time = true # Set this to see some output on long processing times
 $max_queens = 18  # Upper limit to avoid too long of a runtime for very large boards
 $modulo_time = 0  # Initialize global variable used for heartbeat output
 $start_time = Time.now #Process.clock_gettime(Process::CLOCK_MONOTONIC)
-
+$line_count = 0 # Counter used to print out stuff
+$collect_garbage = true   # Enable GC.start in parellel processing
 # Load helper methods from the include file
 require_relative "n_queens_core"
 require_relative "n_queens_backtracking"

@@ -79,13 +79,17 @@ def place_queen_bitmask_parallel(row, cols, diags1, diags2, queens, all_columns,
     # Pick the rightmost available position
     position = available_positions & -available_positions
     available_positions -= position
-
+    
+   
     if $show_elasped_time
+      $line_count += 1
       elasped_time = Time.now - $start_time
-      if (elasped_time % $modulo_time == 0) 
-        puts "#{Time.now} >>> Elasped Time is #{elasped_time} second\n"
+      if ($line_count % 100_000_000 == 0) 
+        GC.start if $collect_garbage
+        puts "#{Time.now} >>> GC for PID #{Process.pid} @ Count #{$line_count} Elasped Time is #{elasped_time} second\n"
       end
     end
+
     
 
     # Calculate column number (bit index)

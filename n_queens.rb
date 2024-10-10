@@ -31,10 +31,14 @@ elsif  $number_of_queens <= 17
   solutions = solve_n_queens_bitmask_parallel($number_of_queens, total_number_of_processors)
 else
   $modulo_time = 600
-  puts "#{Time.now} >>> Number of Working Processor for Tasks is #{2}"
+  puts "#{Time.now} >>> Number of Working Processor for Tasks is #{4}"
   method_name = "Parallel Processing Bitmasking N >= 18"
   puts "#{Time.now} >>> Started Solving N-Queens with #{$number_of_queens} Queens using the #{method_name} Method\n"
-  solutions = solve_n_queens_bitmask_parallel($number_of_queens, 2 )
+  solutions = solve_n_queens_bitmask_parallel($number_of_queens, 4 )
+
+  # method_name = "Backtracking with Pruning"
+  # puts "#{Time.now} >>> Started Solving N-Queens with #{$number_of_queens} Queens using the #{method_name} Method\n"
+  # solutions = solve_n_queens_fast($number_of_queens)
 end
 
 
