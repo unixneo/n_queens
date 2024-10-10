@@ -1,4 +1,5 @@
 require 'etc'
+require 'pathname'
 
 # Configuration variables
 $number_of_queens = 8  # Default number of queens, can be changed via command-line argument
@@ -13,3 +14,5 @@ $line_count = 0  # Counter for logging and garbage collection
 require_relative "n_queens_core"
 require_relative "n_queens_backtracking"
 require_relative "n_queens_bitmasking"
+require_relative "n_queens_bitmasking_to_file"
+require_relative "n_queens_count_solutions_in_files"
