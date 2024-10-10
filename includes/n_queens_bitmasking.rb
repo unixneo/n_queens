@@ -61,7 +61,6 @@ def solve_single_column_with_bitmask(col, board_size)
   solutions
 end
 
-$prior_elasped_time = 0
 # Recursive bitmask method for placing queens, optimized for parallel execution
 def place_queen_bitmask_parallel(row, cols, diags1, diags2, queens, all_columns, board_size, solutions)
   if cols == all_columns  # All queens are placed
@@ -81,16 +80,7 @@ def place_queen_bitmask_parallel(row, cols, diags1, diags2, queens, all_columns,
     available_positions -= position
     
    
-    if $show_elasped_time
-      $line_count += 1
-      elasped_time = Time.now - $start_time
-      if ($line_count % 100_000_000 == 0) 
-        GC.start if $collect_garbage
-        puts "#{Time.now} >>> GC for PID #{Process.pid} @ Count #{$line_count} Elasped Time is #{elasped_time} second\n"
-      end
-    end
-
-    
+    collect_garbage_and_print if $show_elasped_time
 
     # Calculate column number (bit index)
     col = Math.log2(position).to_i
@@ -104,3 +94,42 @@ def place_queen_bitmask_parallel(row, cols, diags1, diags2, queens, all_columns,
     queens.pop  # Backtrack
   end
 end
+
+# puts human_readable_number(1000000000)  # Output: 1.0 billion
+def collect_garbage_and_print
+  $line_count += 1
+  elasped_time = Time.now - $start_time
+  if ($line_count % 100_000_000 == 0) 
+    if $collect_garbage
+      GC.start 
+      puts "#{Time.now} >>> GC for PID #{Process.pid} @ Count #{human_readable_number($line_count)} Elasped Time is #{human_readable_time(elasped_time)} second\n"
+    else
+      puts "#{Time.now} >>> PID #{Process.pid} @ Count #{human_readable_number($line_count)} Elasped Time is #{human_readable_number($line_count)} Elasped Time is #{human_readable_time(elasped_time)} second\n"
+    end
+  end
+end
+
+# Turn seconds into a human-readable format
+def human_readable_time(secs)
+  [[60, :seconds], [60, :minutes], [24, :hours], [Float::INFINITY, :days]].map do |count, name|
+    next unless secs > 0
+
+    secs, number = secs.divmod(count)
+    "#{number.to_i} #{number == 1 ? name.to_s.delete_suffix('s') : name}" unless number.to_i.zero?
+  end.compact.reverse.join(', ')
+end
+
+# Example usage: puts human_readable_number(1000000000)  # Output: 1.0 billion
+def human_readable_number(number)
+  units = [' ', 'thousand', 'million', 'billion', 'trillion', 'quadrillion', 'quintillion']
+  unit = 0
+
+  while number >= 1000 && unit < units.size - 1
+    number /= 1000.0
+    unit += 1
+  end
+
+  "#{number.round(2)} #{units[unit]}"
+end
+
+

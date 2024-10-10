@@ -1,6 +1,7 @@
 #############################################
 # Main N Queens File
 # https://www.github.com/unixneo/n_queens.git
+# Andromeda Version 0.2
 ##############################################
 
 require_relative "includes/n_queens_config"
@@ -24,21 +25,18 @@ elsif $number_of_queens <= 12
   puts "#{Time.now} >>> Started Solving N-Queens with #{$number_of_queens} Queens using the #{method_name} Method\n"
   solutions = solve_n_queens_bitmask($number_of_queens)
 elsif  $number_of_queens <= 17
-  $modulo_time = 60
+  $collect_garbage = true 
   puts "#{Time.now} >>> Number of Working Processor for Tasks is #{total_number_of_processors}"
   method_name = "Parallel Processing Bitmasking N < 18"
   puts "#{Time.now} >>> Started Solving N-Queens with #{$number_of_queens} Queens using the #{method_name} Method\n"
   solutions = solve_n_queens_bitmask_parallel($number_of_queens, total_number_of_processors)
 else
-  $modulo_time = 600
-  puts "#{Time.now} >>> Number of Working Processor for Tasks is #{4}"
+  $collect_garbage = true   # Enable GC.start in parellel processing
+  $working_processors = total_number_of_processors - 2
+  puts "#{Time.now} >>> Number of Working Processor for Tasks is #{$working_processors} - Garbage Collection is #{$collect_garbage}\n"
   method_name = "Parallel Processing Bitmasking N >= 18"
   puts "#{Time.now} >>> Started Solving N-Queens with #{$number_of_queens} Queens using the #{method_name} Method\n"
-  solutions = solve_n_queens_bitmask_parallel($number_of_queens, 4 )
-
-  # method_name = "Backtracking with Pruning"
-  # puts "#{Time.now} >>> Started Solving N-Queens with #{$number_of_queens} Queens using the #{method_name} Method\n"
-  # solutions = solve_n_queens_fast($number_of_queens)
+  solutions = solve_n_queens_bitmask_parallel($number_of_queens, $working_processors )
 end
 
 
