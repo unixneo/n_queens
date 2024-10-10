@@ -1,15 +1,15 @@
 require 'etc'
 
-# Static variables for the number of queens and the board size
-$number_of_queens = 8  # Default value, can be changed with command-line argument
-$show_solutions = false # Set this to true to print all solutions
-$show_elasped_time = true # Set this to see some output on long processing times
-$max_queens = 18  # Upper limit to avoid too long of a runtime for very large boards
-$modulo_time = 0  # Initialize global variable used for heartbeat output
-$start_time = Time.now #Process.clock_gettime(Process::CLOCK_MONOTONIC)
-$line_count = 0 # Counter used to print out stuff
+# Configuration variables
+$number_of_queens = 8  # Default number of queens, can be changed via command-line argument
+$show_solutions = false  # Toggle to true to display all solutions
+$show_elapsed_time = true  # Toggle to true to show output for long-running tasks
+$max_queens = 18  # Upper limit to avoid excessive runtime for large board sizes
+$modulo_time = 0  # Global variable used for heartbeat output
+$start_time = Time.now  # Start time for tracking elapsed time
+$line_count = 0  # Counter for logging and garbage collection
 
-# Load helper methods from the include file
+# Load helper methods from external include files
 require_relative "n_queens_core"
 require_relative "n_queens_backtracking"
 require_relative "n_queens_bitmasking"

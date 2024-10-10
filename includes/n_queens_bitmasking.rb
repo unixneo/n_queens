@@ -80,7 +80,7 @@ def place_queen_bitmask_parallel(row, cols, diags1, diags2, queens, all_columns,
     available_positions -= position
     
    
-    collect_garbage_and_print if $show_elasped_time
+    collect_garbage_and_print if $show_elapsed_time
 
     # Calculate column number (bit index)
     col = Math.log2(position).to_i
@@ -98,13 +98,16 @@ end
 # puts human_readable_number(1000000000)  # Output: 1.0 billion
 def collect_garbage_and_print
   $line_count += 1
-  elasped_time = Time.now - $start_time
-  if ($line_count % 100_000_000 == 0) 
+  elasped_time = Time.now - $start_time  # Calculate elapsed time once
+
+  # Only trigger the log and GC every 100,000,000 iterations
+  if ($line_count % 100_000_000).zero?
+    # Trigger garbage collection if the flag is set
     if $collect_garbage
       GC.start 
-      puts "#{Time.now} >>> GC for PID #{Process.pid} @ Count #{human_readable_number($line_count)} Elasped Time is #{human_readable_time(elasped_time)} second\n"
+      puts "#{Time.now} >>> GC for PID #{Process.pid} @ Count #{human_readable_number($line_count)} Elapsed Time: #{human_readable_time(elasped_time)}\n"
     else
-      puts "#{Time.now} >>> PID #{Process.pid} @ Count #{human_readable_number($line_count)} Elasped Time is #{human_readable_number($line_count)} Elasped Time is #{human_readable_time(elasped_time)} second\n"
+      puts "#{Time.now} >>> PID #{Process.pid} @ Count #{human_readable_number($line_count)} Elapsed Time: #{human_readable_time(elasped_time)}\n"
     end
   end
 end
