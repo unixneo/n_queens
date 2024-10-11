@@ -5,13 +5,13 @@
 ##############################################
 
 require_relative "includes/n_queens_config"
-require_relative "includes/n_queens_main"
+require_relative "includes/n_queens_common"
 
 # Get total number of CPU processors for parallel processing
 $total_processors = Etc.respond_to?(:nprocessors) ? Etc.nprocessors : 4
 $start_time = Time.now
 $enable_garbage_collection = false
-
+$write_to_file_cutoff = 12
 
 def log_message(message)
   puts "#{Time.now} >>> #{message}"
@@ -24,7 +24,7 @@ def select_n_queens_method
   elsif $number_of_queens <= 12
     log_message("Started Solving N-Queens with #{$number_of_queens} Queens using Optimized Bitmasking Method")
     solve_n_queens_bitmask($number_of_queens)
-  elsif $number_of_queens < 17
+  elsif $number_of_queens < $write_to_file_cutoff
     $enable_garbage_collection = false
     $number_of_workers = $total_processors
     log_message("Number of Working Processors: #{$number_of_workers} - Garbage Collection: #{$enable_garbage_collection}")
@@ -37,6 +37,7 @@ def select_n_queens_method
     log_message("Started Solving N-Queens with #{$number_of_queens} Queens using Parallel Processing Bitmasking to File N >= 18 Method")
     #solve_n_queens_bitmask_parallel($number_of_queens, $number_of_workers)
     solve_n_queens_bitmask_parallel_to_file($number_of_queens, $number_of_workers)
+    total_solutions = get_total_count($dir_name)
   end
 end
 
@@ -46,15 +47,10 @@ $number_of_queens = get_number_of_queens($max_queens)
 # Automatically select the best method based on the size of `n`
 solutions = select_n_queens_method
 
-if $number_of_queens >= 17
-  total_solutions = get_total_count($dir_name)
-else
+if $number_of_queens < $write_to_file_cutoff
   show_solutions(solutions) if $show_solutions
   total_solutions = solutions.size
 end
-
-# Print solutions if the flag $show_solutions is true
-
 
 # Display the method name, number of solutions, and execution time
 str_time = format_time($start_time)

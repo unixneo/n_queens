@@ -3,6 +3,7 @@ require 'parallel'
 
 # ================================
 # Optimized Bitmasking Solution
+# Currently unused in favor of solutions to file
 # ================================
 def solve_n_queens_bitmask(board_size)
   solutions = []

@@ -11,7 +11,7 @@ $start_time = Time.now  # Start time for tracking elapsed time
 $line_count = 0  # Counter for logging and garbage collection
 
 # Load helper methods from external include files
-require_relative "n_queens_core"
+require_relative "n_queens_common"
 require_relative "n_queens_backtracking"
 require_relative "n_queens_bitmasking"
 require_relative "n_queens_bitmasking_to_file"

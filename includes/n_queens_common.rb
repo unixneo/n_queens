@@ -3,19 +3,7 @@ def log_message(message)
   puts "#{Time.now} >>> #{message}"
 end
 
-# Get the number of queens from the command-line argument or default
-def get_number_of_queens(max_queens)
-  ARGV.each do |argv|
-    queens = argv.delete('^0-9').to_i
-    if queens.between?(1, max_queens)
-      return queens
-    else
-      log_message("Max Queens is set to #{max_queens} but you requested #{queens} queens!")
-      exit
-    end
-  end
-  $number_of_queens
-end
+
 
 # Convert seconds into a human-readable format
 def human_readable_time(secs)
@@ -46,4 +34,33 @@ def show_solutions(solutions)
       puts "\n"
     end
   end
+end
+
+def get_total_count(directory_path) 
+  total_solutions = count_solutions_in_directory(directory_path)
+  total_solutions
+end
+
+def count_solutions_in_directory(directory_path)
+ total_solutions = 0
+ Dir.glob("#{directory_path}/*.txt").each do |file|
+   file_line_count = File.foreach(file).inject(0) { |count, _line| count + 1 }
+   total_solutions += file_line_count
+   #puts "File #{file} contains #{file_line_count} solutions."
+ end
+ total_solutions
+end
+
+# Get the number of queens from the command-line argument or default
+def get_number_of_queens(max_queens)
+ARGV.each do |argv|
+  queens = argv.delete('^0-9').to_i
+  if queens.between?(1, max_queens)
+    return queens
+  else
+    log_message("Max Queens is set to #{max_queens} but you requested #{queens} queens!")
+    exit
+  end
+end
+$number_of_queens
 end
