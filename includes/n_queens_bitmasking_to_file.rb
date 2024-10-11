@@ -1,4 +1,5 @@
 require 'parallel'
+require 'fileutils'
 
 # ================================
 # Optimized Bitmasking Solution (writing to disk in batches)
