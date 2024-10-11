@@ -32,7 +32,7 @@ def select_n_queens_method
     solve_n_queens_bitmask_parallel($number_of_queens,$number_of_workers)
   else
     $enable_garbage_collection = true
-    $number_of_workers = $total_processors - 2
+    $number_of_workers = $total_processors > 3 ? $total_processors - 2 : $total_processors
     log_message("Number of Working Processors: #{$number_of_workers} - Garbage Collection: #{$enable_garbage_collection} with Write to File")
     log_message("Started Solving N-Queens with #{$number_of_queens} Queens using Parallel Processing Bitmasking to File N >= 18 Method")
     #solve_n_queens_bitmask_parallel($number_of_queens, $number_of_workers)
