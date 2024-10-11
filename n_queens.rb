@@ -37,7 +37,6 @@ def select_n_queens_method
     log_message("Started Solving N-Queens with #{$number_of_queens} Queens using Parallel Processing Bitmasking to File N >= 18 Method")
     #solve_n_queens_bitmask_parallel($number_of_queens, $number_of_workers)
     solve_n_queens_bitmask_parallel_to_file($number_of_queens, $number_of_workers)
-    total_solutions = get_total_count($dir_name)
   end
 end
 
@@ -50,6 +49,8 @@ solutions = select_n_queens_method
 if $number_of_queens < $write_to_file_cutoff
   show_solutions(solutions) if $show_solutions
   total_solutions = solutions.size
+else
+  total_solutions = get_total_count($dir_name)
 end
 
 # Display the method name, number of solutions, and execution time
