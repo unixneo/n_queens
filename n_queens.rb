@@ -21,7 +21,7 @@ def select_n_queens_method
   if $number_of_queens <= 10
     log_message("Started Solving N-Queens with #{$number_of_queens} Queens using Backtracking with Pruning Method")
     solve_n_queens_fast($number_of_queens)
-  elsif $number_of_queens <= 12
+  elsif false && $number_of_queens <= 12
     log_message("Started Solving N-Queens with #{$number_of_queens} Queens using Optimized Bitmasking Method")
     solve_n_queens_bitmask($number_of_queens)
   elsif $number_of_queens < $write_to_file_cutoff
