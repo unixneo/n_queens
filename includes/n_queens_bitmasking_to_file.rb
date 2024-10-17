@@ -4,16 +4,17 @@ require 'fileutils'
 # ================================
 # Optimized Bitmasking Solution (writing to disk in batches)
 # ================================
+$solution_count_per_process = 0
 
-$total_solutions_count = 0
 def solve_n_queens_bitmask_parallel_to_file(board_size, number_of_processors)
+  solution_count_per_process = 0
   log_message("Starting parallel processing for N=#{board_size} with #{number_of_processors} processors")
   $start_time = Time.now
   $solutions_count = 0
 
   timestamp = Time.now.strftime("%Y%m%d_%H%M%S")
   $dir_name = "solutions_#{board_size}_#{timestamp}"
-  puts log_message("Directory Name: #{$dir_name}")
+  log_message("Directory Name: #{$dir_name}")
   FileUtils.mkdir_p($dir_name)
 
 
@@ -21,13 +22,14 @@ def solve_n_queens_bitmask_parallel_to_file(board_size, number_of_processors)
     filename = "n_queens_solutions_#{board_size}_col_#{col}.txt"
    
     File.open("./#{$dir_name}/#{filename}", 'w') do |file|
-      solve_single_column_bitmask_to_file(col, board_size, file)
+      solve_single_column_bitmask_to_file(col, board_size, file, solution_count_per_process)
     end
   end
 end
 
 # Solve for a single column using the bitmasking approach (for parallel execution, buffered writing to file)
-def solve_single_column_bitmask_to_file(col, board_size, file)
+def solve_single_column_bitmask_to_file(col, board_size, file,solution_count_per_process)
+  count = 0
   all_columns = (1 << board_size) - 1  # Create a bitmask for all available columns
   initial_position = 1 << col
   buffer = []  # Buffer to hold solutions before writing to file
@@ -35,7 +37,11 @@ def solve_single_column_bitmask_to_file(col, board_size, file)
   place_queen_bitmask_to_file(1, initial_position, initial_position << 1, initial_position >> 1, [col], all_columns, board_size, file, buffer)
 
   # Ensure all remaining solutions are written to file before process exits
-  write_solutions_to_file(buffer, file) unless buffer.empty?
+  count = write_solutions_to_file(buffer, file) unless buffer.empty?
+  solution_count_per_process += count
+  file.puts(solution_count_per_process)
+  file.flush
+
 end
 
 # Recursive bitmask method for placing queens, optimized for parallel execution and buffered writing to file
@@ -64,23 +70,48 @@ end
 
 # Collect garbage and log progress periodically; write solutions to file in batches
 def collect_garbage_and_log(file, buffer)
+  count = 0
+
+if COUNT_SOLUTIONS_ONLY
   if $solutions_count % 1_000_000 == 0  # Adjust the batch size as needed
+    # report = MemoryProfiler.report do
+    #   Parallel.each(large_array, in_processes: 4) { |element| process_element(element) }
+    # end
+    
+    # report.pretty_print
+    GC.start
+  
+    elapsed_time = Time.now - $start_time
+    log_message("GC for PID #{Process.pid} @ Solution Count: #{human_readable_number($solutions_count)}, Elapsed: #{human_readable_time(elapsed_time)}")
+  end
+  if $solutions_count % 100_000_000 == 0
+    system("clear")
+  end
+end
+
+  if DO_NOT_COUNT_SOLUTIONS_ONLY  && $solutions_count % 1_000_000 == 0  # Adjust the batch size as needed
     # Write buffered solutions to file and clear buffer
-    write_solutions_to_file(buffer, file)
+    count = write_solutions_to_file(buffer, file) unless buffer.empty?
+    $solution_count_per_process += count
     buffer.clear
 
     # Trigger garbage collection if the flag is set
     GC.start
     elapsed_time = Time.now - $start_time
-    log_message("GC for PID #{Process.pid} @ Solution Count: #{human_readable_number($solutions_count)}. Elapsed Time: #{human_readable_time(elapsed_time)}")
+    log_message("GC for PID #{Process.pid} @ Solution Count: #{human_readable_number($solutions_count)}, #{human_readable_number($solution_count_per_process)} Elapsed: #{human_readable_time(elapsed_time)}")
   end
 end
 
 # Write solutions from buffer to file
 def write_solutions_to_file(buffer, file)
-  buffer.each do |solution|
-    file.puts solution.join(',')
+  total_count_per_process = 0
+  if DO_NOT_COUNT_SOLUTIONS_ONLY  && $number_of_queens < 20
+    buffer.each do |solution|
+      file.puts(solution.join(','))
+    end
   end
+  total_count_per_process = buffer.nil? ? 0 : buffer.count
+  total_count_per_process
 end
 
 # Helper method for logging progress
@@ -122,5 +153,12 @@ def count_solutions_in_directory(directory_path)
     total_solutions
 end
   
-  # Example usage
- 
+def count_solutions_in_directory(directory_path)
+ total_solutions = 0
+ Dir.glob("#{directory_path}/*.txt").each do |file|
+   file_line_count = File.foreach(file).inject(0) { |count, _line| count + 1 }
+   total_solutions += file_line_count
+   #puts "File #{file} contains #{file_line_count} solutions."
+ end
+ total_solutions
+end
