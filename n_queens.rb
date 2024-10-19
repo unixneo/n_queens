@@ -1,7 +1,7 @@
 #############################################
 # Main N Queens File
 # https://www.github.com/unixneo/n_queens.git
-# Betelgeuse Version
+# Count Solutions Only Version
 ##############################################
 
 #require 'memory_profiler'
@@ -34,8 +34,8 @@ def select_n_queens_method
     solve_n_queens_bitmask_parallel($number_of_queens,$number_of_workers)
   else
     $enable_garbage_collection = true
-    #$number_of_workers = $total_processors > 3 ? $total_processors - 2 : $total_processors
-    $number_of_workers = 6
+    $number_of_workers = $total_processors > 3 ? $total_processors - 2 : $total_processors
+    #$number_of_workers = 2
     log_message("Number of Working Processors: #{$number_of_workers} - Garbage Collection: #{$enable_garbage_collection} Count Solutions Only")
     log_message("Started Counting N-Queens with #{$number_of_queens} Queens using Parallel Processing Bitmasking to File N >= 18 Method")
     #solve_n_queens_bitmask_parallel($number_of_queens, $number_of_workers)

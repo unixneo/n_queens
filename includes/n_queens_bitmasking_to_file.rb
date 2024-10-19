@@ -73,18 +73,21 @@ def collect_garbage_and_log(file, buffer)
   count = 0
 
 if COUNT_SOLUTIONS_ONLY
-  if $solutions_count % 1_000_000 == 0  # Adjust the batch size as needed
+  if $solutions_count % 100_000 == 0  # Adjust the batch size as needed
     # report = MemoryProfiler.report do
     #   Parallel.each(large_array, in_processes: 4) { |element| process_element(element) }
     # end
     
     # report.pretty_print
     GC.start
-  
+  end
+
+  if $solutions_count % 1_000_000 == 0
     elapsed_time = Time.now - $start_time
     log_message("GC for PID #{Process.pid} @ Solution Count: #{human_readable_number($solutions_count)}, Elapsed: #{human_readable_time(elapsed_time)}")
   end
-  if $solutions_count % 100_000_000 == 0
+
+  if $solutions_count % 10_000_000 == 0
     system("clear")
   end
 end
@@ -111,6 +114,7 @@ def write_solutions_to_file(buffer, file)
     end
   end
   total_count_per_process = buffer.nil? ? 0 : buffer.count
+  buffer.clear
   total_count_per_process
 end
 
