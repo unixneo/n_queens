@@ -64,10 +64,10 @@ ruby n_queens.rb 12
 
 ### Show Solutions
 
-If you want to print all the solutions found, set `$show_solutions` to `true` in the **main file**:
+If you want to print all the solutions found, set `SHOW_SOLUTIONS` to `true` in the **config file**:
 
 ```ruby
-$show_solutions = true
+SHOW_SOLUTIONS = true
 ```
 
 ## Solving Methods
@@ -105,7 +105,7 @@ Method used: Parallel Bitmasking
 Number of solutions: 92 for 8 Queens in 0.123456s
 ```
 
-When `$show_solutions` is enabled, you'll also see the exact queen placements for each solution:
+When `SHOW_SOLUTIONS` is enabled, you'll also see the exact queen placements for each solution:
 
 ```
 Solution 1:

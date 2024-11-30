@@ -81,7 +81,7 @@ def place_queen_bitmask_parallel(row, cols, diags1, diags2, queens, all_columns,
     available_positions -= position
     
    
-    collect_garbage_and_print if $show_elapsed_time
+    collect_garbage_and_print if SHOW_ELASPED_TIME
 
     # Calculate column number (bit index)
     col = Math.log2(position).to_i
