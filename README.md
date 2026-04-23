@@ -125,6 +125,6 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ## Authors
 
-- unixneo
-- Claude (Anthropic) - Architect
+- unixneo (Tim B.) - PI
+- Claude (Anthropic) - Gemspec Architect  
 - Codex (OpenAI) - Coder
