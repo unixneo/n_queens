@@ -1,1 +1,5 @@
 solutions_*
+*.gem
+pkg/
+.bundle/
+Gemfile.lock
